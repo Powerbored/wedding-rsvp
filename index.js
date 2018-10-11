@@ -1,8 +1,7 @@
-const randomBytes = require('crypto').randomBytes;
-
-const AWS = require('aws-sdk');
-
-const ddb = new AWS.DynamoDB.DocumentClient();
+const
+	randomBytes = require('crypto').randomBytes,
+	AWS = require('aws-sdk'),
+	ddb = new AWS.DynamoDB.DocumentClient();
 
 const fleet = [
 	{

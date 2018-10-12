@@ -31,17 +31,17 @@ exports.handler = (event, context, callback) => {
 	// Because we're using a Cognito User Pools authorizer, all of the claims
 	// included in the authentication token are provided in the request context.
 	// This includes the username as well as other attributes.
-	const username = event.requestContext.authorizer.claims['cognito:username'];
 
 	// The body field of the event in a proxy integration is a raw string.
 	// In order to extract meaningful values, we need to first parse this string
 	// into an object. A more robust implementation might inspect the Content-Type
 	// header first and use a different parsing strategy based on that value.
-	const requestBody = JSON.parse(event.body);
 
-	const pickupLocation = requestBody.PickupLocation;
-
-	const unicorn = findUnicorn(pickupLocation);
+	const
+		username = event.requestContext.authorizer.claims['cognito:username'],
+		requestBody = JSON.parse(event.body),
+		pickupLocation = requestBody.PickupLocation,
+		unicorn = findUnicorn(pickupLocation);
 
 	recordRide(rideId, username, unicorn).then(() => {
 		// You can use the callback function to provide a return value from your Node.js
@@ -70,7 +70,7 @@ exports.handler = (event, context, callback) => {
 		// from the Lambda function successfully. Specify a 500 HTTP status
 		// code and provide an error message in the body. This will provide a
 		// more meaningful error response to the end client.
-		errorResponse(err.message, context.awsRequestId, callback)
+		errorResponse(err.message, context.awsRequestId, callback);
 	});
 };
 
@@ -84,7 +84,7 @@ function findUnicorn(pickupLocation) {
 
 function recordRide(rideId, username, unicorn) {
 	return ddb.put({
-		TableName: 'Rides',
+		TableName: 'wedding-rsvp',
 		Item: {
 			RideId: rideId,
 			User: username,

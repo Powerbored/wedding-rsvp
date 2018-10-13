@@ -25,9 +25,6 @@ exports.handler = (event, context, callback) => {
 		return;
 	}
 
-	const rideId = toUrlString(randomBytes(16));
-	console.log('Received event (', rideId, '): ', event);
-
 	// Because we're using a Cognito User Pools authorizer, all of the claims
 	// included in the authentication token are provided in the request context.
 	// This includes the username as well as other attributes.
@@ -38,12 +35,16 @@ exports.handler = (event, context, callback) => {
 	// header first and use a different parsing strategy based on that value.
 
 	const
+		rideId = toUrlString(randomBytes(16)),
 		username = event.requestContext.authorizer.claims['cognito:username'],
 		requestBody = JSON.parse(event.body),
 		pickupLocation = requestBody.PickupLocation,
+		id = requestBody.id,
 		unicorn = findUnicorn(pickupLocation);
 
-	recordRide(rideId, username, unicorn).then(() => {
+	console.log('Received event (', rideId, '): ', event);
+
+	recordRide(id, username, unicorn).then(() => {
 		// You can use the callback function to provide a return value from your Node.js
 		// Lambda functions. The first parameter is used for failed invocations. The
 		// second parameter specifies the result data of the invocation.
@@ -53,7 +54,7 @@ exports.handler = (event, context, callback) => {
 		callback(null, {
 			statusCode: 201,
 			body: JSON.stringify({
-				RideId: rideId,
+				id: id,
 				Unicorn: unicorn,
 				UnicornName: unicorn.Name,
 				Eta: '30 seconds',
@@ -82,11 +83,11 @@ function findUnicorn(pickupLocation) {
 	return fleet[Math.floor(Math.random() * fleet.length)];
 }
 
-function recordRide(rideId, username, unicorn) {
+function recordRide(id, username, unicorn) {
 	return ddb.put({
 		TableName: 'wedding-rsvp',
 		Item: {
-			RideId: rideId,
+			id: id,
 			User: username,
 			Unicorn: unicorn,
 			UnicornName: unicorn.Name,

@@ -1,7 +1,6 @@
 'use strict';
 
 const
-	test = require('unit.js'),
 	index = require('../index.js');
 
 // describe('Tests index', function() {

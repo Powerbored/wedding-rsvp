@@ -21,7 +21,7 @@ const fleet = [
 
 exports.handler = (event, context, callback) => {
 	if (!event.requestContext.authorizer) {
-		errorResponse('Authorization not configured', context.awsRequestId, callback);
+		errorResponse('Authorization may not be configured', context.awsRequestId, callback);
 		return;
 	}
 

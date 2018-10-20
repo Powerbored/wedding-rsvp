@@ -20,10 +20,10 @@ const fleet = [
 ];
 
 exports.handler = (event, context, callback) => {
-	if (!event.requestContext.authorizer) {
-		errorResponse('Authorization may not be configured', context.awsRequestId, callback);
-		return;
-	}
+	// if (!event.requestContext.authorizer) {
+	// 	errorResponse('Authorization may not be configured', context.awsRequestId, callback);
+	// 	return;
+	// }
 
 	// Because we're using a Cognito User Pools authorizer, all of the claims
 	// included in the authentication token are provided in the request context.

@@ -36,7 +36,7 @@ exports.handler = (event, context, callback) => {
 
 	const
 		rideId = toUrlString(randomBytes(16)),
-		username = event.requestContext.authorizer.claims['cognito:username'],
+		username = 'test', //event.requestContext.authorizer.claims['cognito:username'],
 		requestBody = JSON.parse(event.body),
 		pickupLocation = requestBody.PickupLocation,
 		id = requestBody.id,

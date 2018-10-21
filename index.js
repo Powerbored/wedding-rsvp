@@ -20,6 +20,18 @@ const fleet = [
 ];
 
 exports.handler = (event, context, callback) => {
+	callback(null, {
+		statusCode: 201,
+		body: JSON.stringify(
+			findUnicorn({
+				Longitude: Math.random() * 10,
+				Latitude: Math.random() * 20
+			})
+		),
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+		},
+	});
 	// if (!event.requestContext.authorizer) {
 	// 	errorResponse('Authorization may not be configured', context.awsRequestId, callback);
 	// 	return;
@@ -33,7 +45,7 @@ exports.handler = (event, context, callback) => {
 	// In order to extract meaningful values, we need to first parse this string
 	// into an object. A more robust implementation might inspect the Content-Type
 	// header first and use a different parsing strategy based on that value.
-
+/*
 	const
 		rideId = toUrlString(randomBytes(16)),
 		username = 'test', //event.requestContext.authorizer.claims['cognito:username'],
@@ -73,6 +85,7 @@ exports.handler = (event, context, callback) => {
 		// more meaningful error response to the end client.
 		errorResponse(err.message, context.awsRequestId, callback);
 	});
+*/
 };
 
 // This is where you would implement logic to find the optimal unicorn for

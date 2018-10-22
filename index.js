@@ -31,15 +31,19 @@ exports.handler = (event, context, callback) => {
 		errorResponse('No ID recieved in request body', context.awsRequestId, callback);
 		return;
 	}
-	recordRide(requestBody.id, 'test', unicorn);
-	callback(null, {
-		statusCode: 201,
-		body: JSON.stringify(
-			unicorn
-		),
-		headers: {
-			'Access-Control-Allow-Origin': '*',
-		},
+	recordRide(requestBody.id, 'test', unicorn).then(() => {
+		callback(null, {
+			statusCode: 201,
+			body: JSON.stringify(
+				unicorn
+			),
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+			},
+		});
+	}).catch((error) => {
+		console.error(error);
+		errorResponse(error.message, context.awsRequestId, callback);
 	});
 	// if (!event.requestContext.authorizer) {
 	// 	errorResponse('Authorization may not be configured', context.awsRequestId, callback);

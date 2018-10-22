@@ -20,13 +20,22 @@ const fleet = [
 ];
 
 exports.handler = (event, context, callback) => {
+	const
+		requestBody = JSON.parse(event.body),
+		unicorn = findUnicorn({
+			Longitude: Math.random() * 10,
+			Latitude: Math.random() * 20
+		})
+	;
+	if (!requestBody.id) {
+		errorResponse('No ID recieved in request body', context.awsRequestId, callback);
+		return;
+	}
+	recordRide(requestBody.id, 'test', unicorn);
 	callback(null, {
 		statusCode: 201,
 		body: JSON.stringify(
-			findUnicorn({
-				Longitude: Math.random() * 10,
-				Latitude: Math.random() * 20
-			})
+			unicorn
 		),
 		headers: {
 			'Access-Control-Allow-Origin': '*',

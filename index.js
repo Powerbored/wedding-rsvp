@@ -35,6 +35,7 @@ exports.handler = (event, context, callback) => {
 		callback(null, {
 			statusCode: 201,
 			body: JSON.stringify(
+				event,
 				unicorn
 			),
 			headers: {
@@ -113,7 +114,20 @@ function recordRide(id, username, unicorn) {
 	return ddb.put({
 		TableName: 'wedding-rsvp',
 		Item: {
-			id: id,
+			id,
+			User: username,
+			Unicorn: unicorn,
+			UnicornName: unicorn.Name,
+			RequestTime: new Date().toISOString(),
+		},
+	}).promise();
+}
+function recordChange(id, username, unicorn) {
+	return ddb.put({
+		TableName: 'wedding-rsvp-records',
+		Item: {
+			record: id + new Date().toISOString(),
+			id,
 			User: username,
 			Unicorn: unicorn,
 			UnicornName: unicorn.Name,

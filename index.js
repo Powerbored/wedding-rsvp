@@ -31,18 +31,30 @@ exports.handler = (event, context, callback) => {
 		errorResponse('No ID recieved in request body', context.awsRequestId, callback);
 		return;
 	}
-	recordRide(requestBody.id, 'test', unicorn).then(() => {
-		callback(null, {
-			statusCode: 201,
-			body: JSON.stringify(
-				event,
-				unicorn
-			),
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-			},
-		});
-	}).catch((error) => {
+	recordDetails(
+		requestBody.id, 'test', unicorn
+	).then(
+		recordChange(
+			requestBody.id, 'test', unicorn
+		).then(
+			callback(null, {
+				statusCode: 201,
+				body: JSON.stringify(
+					event,
+					unicorn
+				),
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+				},
+			}),
+			() => {
+				throw new Error('unable to create change record');
+			}
+		),
+		() => {
+			throw new Error('unable to record rsvp');
+		}
+	).catch((error) => {
 		console.error(error);
 		errorResponse(error.message, context.awsRequestId, callback);
 	});
@@ -102,15 +114,12 @@ exports.handler = (event, context, callback) => {
 */
 };
 
-// This is where you would implement logic to find the optimal unicorn for
-// this ride (possibly invoking another Lambda function as a microservice.)
-// For simplicity, we'll just pick a unicorn at random.
 function findUnicorn(pickupLocation) {
 	console.log('Finding unicorn for ', pickupLocation.Latitude, ', ', pickupLocation.Longitude);
 	return fleet[Math.floor(Math.random() * fleet.length)];
 }
 
-function recordRide(id, username, unicorn) {
+function recordDetails(id, username, unicorn) {
 	return ddb.put({
 		TableName: 'wedding-rsvp',
 		Item: {

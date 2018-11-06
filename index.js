@@ -40,20 +40,15 @@ exports.handler = (event, context, callback) => {
 			callback(null, {
 				statusCode: 201,
 				body: JSON.stringify(
-					event,
 					unicorn
 				),
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 				},
 			}),
-			() => {
-				throw new Error('unable to create change record');
-			}
+			(error) => {throw error;}
 		),
-		() => {
-			throw new Error('unable to record rsvp');
-		}
+		(error) => {throw error;}
 	).catch((error) => {
 		console.error(error);
 		errorResponse(error.message, context.awsRequestId, callback);

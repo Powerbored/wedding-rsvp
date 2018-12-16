@@ -4,40 +4,33 @@ const
 
 exports.handler = (event, context, callback) => {
 	const requestBody = JSON.parse(event.body);
-	callback(null, {
-		statusCode: 200,
-		body: 'test',
-		headers: {
-			'Access-Control-Allow-Origin': '*',
-		},
+	if (requestBody.username) {
+		errorResponse('No username recieved in request body', context.awsRequestId, callback);
+		return;
+	}
+	recordDetails(
+		requestBody
+	).then(
+		recordChange(
+			requestBody
+		).then(
+			callback(null, {
+				statusCode: 201,
+				body: {
+					message: 'RSVP successfuly recorded',
+					username: requestBody.username,
+				},
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+				},
+			}),
+			(error) => {throw error;}
+		),
+		(error) => {throw error;}
+	).catch((error) => {
+		console.error(error);
+		errorResponse(error.message, context.awsRequestId, callback);
 	});
-	// if (!requestBody.id) {
-	// 	errorResponse('No ID recieved in request body', context.awsRequestId, callback);
-	// 	return;
-	// }
-	// recordDetails(
-	// 	requestBody
-	// ).then(
-	// 	recordChange(
-	// 		requestBody
-	// 	).then(
-	// 		callback(null, {
-	// 			statusCode: 201,
-	// 			body: {
-	// 				message: 'RSVP successfuly recorded',
-	// 				username: requestBody.username,
-	// 			},
-	// 			headers: {
-	// 				'Access-Control-Allow-Origin': '*',
-	// 			},
-	// 		}),
-	// 		(error) => {throw error;}
-	// 	),
-	// 	(error) => {throw error;}
-	// ).catch((error) => {
-	// 	console.error(error);
-	// 	errorResponse(error.message, context.awsRequestId, callback);
-	// });
 };
 
 function recordDetails(data) {

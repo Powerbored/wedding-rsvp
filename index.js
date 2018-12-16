@@ -28,7 +28,7 @@ exports.handler = (event, context, callback) => {
 		),
 		(error) => {throw error;}
 	).catch((error) => {
-		errorResponse(requestBody, context.awsRequestId, callback);
+		errorResponse(error, context.awsRequestId, callback);
 	});
 };
 
@@ -37,12 +37,7 @@ function recordDetails(data) {
 		TableName: 'wedding-rsvp',
 		Item: {
 			id: atob(data.username),
-			username: data.username,
-			email: data.username,
-			contactNumber: data.contactNumber,
-			guests: JSON.stringify(data.guests),
-			attendance: data.attendance,
-			transport: data.transport,
+			username: data.username
 		},
 	}).promise();
 }
@@ -53,12 +48,7 @@ function recordChange(data) {
 			record: atob(data.username) + new Date().toISOString(),
 			RequestTime: new Date().toISOString(),
 			id: atob(data.username),
-			username: data.username,
-			email: data.username,
-			contactNumber: data.contactNumber,
-			guests: JSON.stringify(data.guests),
-			attendance: data.attendance,
-			transport: data.transport,
+			username: data.username
 		},
 	}).promise();
 }

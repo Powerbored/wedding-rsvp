@@ -8,28 +8,28 @@ exports.handler = (event, context, callback) => {
 		errorResponse('No username recieved in request body', context.awsRequestId, callback);
 		return;
 	}
-	recordDetails(
-		requestBody
-	).then(
-		// recordChange(
-		// 	requestBody
-		// ).then(
-			callback(null, {
-				statusCode: 201,
-				body: {
-					message: 'RSVP successfuly recorded',
-					username: requestBody.username,
-				},
-				headers: {
-					'Access-Control-Allow-Origin': '*',
-				},
-			}),
-			(error) => {throw error;}
-		// ),
-		// (error) => {throw error;}
-	).catch((error) => {
-		errorResponse(error, context.awsRequestId, callback);
-	});
+	errorResponse(requestBody, context.awsRequestId, callback);
+	// recordDetails(requestBody)
+	// 	.then(
+	// 		recordChange(requestBody)
+	// 			.then(
+	// 				callback(null, {
+	// 					statusCode: 201,
+	// 					body: {
+	// 						message: 'RSVP successfuly recorded',
+	// 						username: requestBody.username,
+	// 					},
+	// 					headers: {
+	// 						'Access-Control-Allow-Origin': '*',
+	// 					},
+	// 				}),
+	// 				(error) => {throw error;}
+	// 			),
+	// 		(error) => {throw error;}
+	// 	)
+	// 	.catch((error) => {
+	// 		errorResponse(error, context.awsRequestId, callback);
+	// 	});
 };
 
 function recordDetails(data) {

@@ -28,8 +28,7 @@ exports.handler = (event, context, callback) => {
 		),
 		(error) => {throw error;}
 	).catch((error) => {
-		console.error(error);
-		errorResponse(error.message, context.awsRequestId, callback);
+		errorResponse(requestBody, context.awsRequestId, callback);
 	});
 };
 
@@ -41,7 +40,7 @@ function recordDetails(data) {
 			username: data.username,
 			email: data.username,
 			contactNumber: data.contactNumber,
-			guests: data.guests,
+			guests: JSON.stringify(data.guests),
 			attendance: data.attendance,
 			transport: data.transport,
 		},
@@ -57,7 +56,7 @@ function recordChange(data) {
 			username: data.username,
 			email: data.username,
 			contactNumber: data.contactNumber,
-			guests: data.guests,
+			guests: JSON.stringify(data.guests),
 			attendance: data.attendance,
 			transport: data.transport,
 		},

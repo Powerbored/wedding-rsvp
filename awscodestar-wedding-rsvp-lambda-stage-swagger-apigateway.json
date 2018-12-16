@@ -1,0 +1,266 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "awscodestar-wedding-rsvp-lambda"
+  },
+  "host": "3beqontg3a.execute-api.ap-southeast-2.amazonaws.com",
+  "basePath": "/stage",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/rsvp": {
+      "post": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Access-Control-Allow-Origin",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Access-Control-Allow-Headers",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Amz-Docs-Region",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Requested-With",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Access-Control-Allow-Methods",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            },
+            "headers": {
+              "X-Amz-Docs-Region": {
+                "type": "string"
+              },
+              "X-Requested-With": {
+                "type": "string"
+              },
+              "Access-Control-Allow-Origin": {
+                "type": "string"
+              },
+              "Access-Control-Allow-Methods": {
+                "type": "string"
+              },
+              "X-Api-Key": {
+                "type": "string"
+              },
+              "Access-Control-Allow-Headers": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ],
+        "x-amazon-apigateway-integration": {
+          "uri": "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:749316234604:function:awscodestar-wedding-rsvp-lambda-GetHelloWorld-1MUS80GCH6UDM/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws_proxy"
+        }
+      },
+      "options": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Access-Control-Allow-Origin",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Access-Control-Allow-Headers",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Amz-Docs-Region",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "X-Requested-With",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Access-Control-Allow-Methods",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            },
+            "headers": {
+              "X-Amz-Docs-Region": {
+                "type": "string"
+              },
+              "X-Requested-With": {
+                "type": "string"
+              },
+              "Access-Control-Allow-Origin": {
+                "type": "string"
+              },
+              "Access-Control-Allow-Methods": {
+                "type": "string"
+              },
+              "X-Api-Key": {
+                "type": "string"
+              },
+              "Access-Control-Allow-Headers": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'",
+                "method.response.header.X-Requested-With": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-Docs-Region,X-Requested-With'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://www.andrewandkirsty.com'",
+                "method.response.header.X-Amz-Docs-Region": "'ap-southeast-2'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "x-api-key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Empty": {}
+  },
+  "x-amazon-apigateway-gateway-responses": {
+    "DEFAULT_5XX": {
+      "responseParameters": {
+        "gatewayresponse.header.X-Requested-With": "'*'",
+        "gatewayresponse.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+        "gatewayresponse.header.content-type": "'application/json'",
+        "gatewayresponse.header.x-amz-docs-region": "'ap-southeast-2'",
+        "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+        "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-Docs-Region'"
+      },
+      "responseTemplates": {
+        "application/json": "{\"message\":$context.error.messageString}"
+      }
+    },
+    "AUTHORIZER_CONFIGURATION_ERROR": {
+      "statusCode": 500,
+      "responseParameters": {
+        "gatewayresponse.header.X-Requested-With": "'*'",
+        "gatewayresponse.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+        "gatewayresponse.header.content-type": "'application/json'",
+        "gatewayresponse.header.x-amz-docs-region": "'ap-southeast-2'",
+        "gatewayresponse.header.Access-Control-Allow-Origin": "'https://www.andrewandkirsty.com/*'",
+        "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-Docs-Region'"
+      },
+      "responseTemplates": {
+        "application/json": "{\"message\":$context.error.messageString}"
+      }
+    },
+    "API_CONFIGURATION_ERROR": {
+      "statusCode": 500,
+      "responseParameters": {
+        "gatewayresponse.header.X-Requested-With": "'*'",
+        "gatewayresponse.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+        "gatewayresponse.header.content-type": "'application/json'",
+        "gatewayresponse.header.x-amz-docs-region": "'ap-southeast-2'",
+        "gatewayresponse.header.Access-Control-Allow-Origin": "'https://www.andrewandkirsty.com/*'",
+        "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-Docs-Region'"
+      },
+      "responseTemplates": {
+        "application/json": "{\"message\":$context.error.messageString}"
+      }
+    },
+    "DEFAULT_4XX": {
+      "responseParameters": {
+        "gatewayresponse.header.X-Requested-With": "'*'",
+        "gatewayresponse.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+        "gatewayresponse.header.content-type": "'application/json'",
+        "gatewayresponse.header.x-amz-docs-region": "'ap-southeast-2'",
+        "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+        "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-Docs-Region'"
+      },
+      "responseTemplates": {
+        "application/json": "{\"message\":$context.error.messageString}"
+      }
+    }
+  }
+}

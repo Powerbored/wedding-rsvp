@@ -27,21 +27,17 @@ exports.handler = (event, context, callback) => {
 				}),
 				'wedding-rsvp-records'
 			)
-				.then(
-					callback(null, {
-						statusCode: 201,
-						body: {
-							message: 'RSVP successfuly recorded'
-						},
-						headers: {
-							'Access-Control-Allow-Origin': '*',
-						},
-					}),
-					(error) => {throw error;}
-				),
-			(error) => {throw error;}
-		)
-		.catch((error) => {
+		).then(
+			callback(null, {
+				statusCode: 201,
+				body: {
+					message: 'RSVP successfuly recorded'
+				},
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+				},
+			})
+		).catch((error) => {
 			console.error(error);
 			errorResponse(error, context.awsRequestId, callback);
 		});

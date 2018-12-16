@@ -33,15 +33,15 @@ exports.handler = (event, context, callback) => {
 };
 
 function recordDetails(data) {
-	const record = {
-		id: atob(data.username),
-		username: data.username,
-		email: data.username,
-		contactNumber: data.contactNumber,
-		guests: JSON.stringify(data.guests),
-		attendance: data.attendance,
-		transport: data.transport,
-	};
+	// const record = {
+	// 	id: atob(data.username),
+	// 	username: data.username,
+	// 	email: data.username,
+	// 	contactNumber: data.contactNumber,
+	// 	guests: JSON.stringify(data.guests),
+	// 	attendance: data.attendance,
+	// 	transport: data.transport,
+	// };
 	return ddb.put({
 		TableName: 'wedding-rsvp',
 		Item: {

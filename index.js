@@ -4,8 +4,8 @@ const
 
 exports.handler = (event, context, callback) => {
 	const requestBody = JSON.parse(event.body);
-	if (requestBody.username) {
-		errorResponse(event.body, context.awsRequestId, callback);
+	if (!requestBody.username) {
+		errorResponse('No username recieved in request body', context.awsRequestId, callback);
 		return;
 	}
 	recordDetails(

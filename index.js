@@ -4,23 +4,30 @@ const
 
 exports.handler = (event, context, callback) => {
 	const requestBody = JSON.parse(event.body);
+	const timeStamp = new Date().toISOString();
 	if (!requestBody.username) {
 		errorResponse('No username recieved in request body', context.awsRequestId, callback);
 		return;
 	}
 	let record = {
 		id: atob(requestBody.username),
-		username: requestBody.username,
-		email: requestBody.username,
-		contactNumber: requestBody.contactNumber,
-		guests: JSON.stringify(requestBody.guests),
-		attendance: requestBody.attendance,
-		transport: requestBody.transport,
+		// username: requestBody.username,
+		// email: requestBody.username,
+		// contactNumber: requestBody.contactNumber,
+		// guests: JSON.stringify(requestBody.guests),
+		// attendance: requestBody.attendance,
+		// transport: requestBody.transport,
 	};
 	errorResponse(JSON.stringify(record), context.awsRequestId, callback);
-	// recordDetails(requestBody)
+	// recordTo(record, 'wedding-rsvp')
 	// 	.then(
-	// 		recordChange(requestBody)
+	// 		recordTo(
+	// 			Object.assign(record, {
+	// 				record: record.id + timeStamp,
+	// 				RequestTime: timeStamp,
+	// 			}),
+	// 			'wedding-rsvp-records'
+	// 		)
 	// 			.then(
 	// 				callback(null, {
 	// 					statusCode: 201,
@@ -41,28 +48,10 @@ exports.handler = (event, context, callback) => {
 	// 	});
 };
 
-function recordDetails(data) {
+function recordTo(data, table) {
 	return ddb.put({
-		TableName: 'wedding-rsvp',
-		Item: {
-			id: atob(data.username),
-		},
-	}).promise();
-}
-function recordChange(data) {
-	return ddb.put({
-		TableName: 'wedding-rsvp-records',
-		Item: {
-			record: atob(data.username) + new Date().toISOString(),
-			RequestTime: new Date().toISOString(),
-			id: atob(data.username),
-			username: data.username,
-			email: data.username,
-			contactNumber: data.contactNumber,
-			guests: JSON.stringify(data.guests),
-			attendance: data.attendance,
-			transport: data.transport,
-		},
+		TableName: table,
+		Item: data,
 	}).promise();
 }
 

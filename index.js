@@ -10,45 +10,44 @@ exports.handler = (event, context, callback) => {
 		return;
 	}
 	let record = {
-		id: requestBody.username,
-		// username: requestBody.username,
-		// email: requestBody.username,
-		// contactNumber: requestBody.contactNumber,
-		// guests: JSON.stringify(requestBody.guests),
-		// attendance: requestBody.attendance,
-		// transport: requestBody.transport,
+		id: Buffer.from(requestBody.username).toString('base64'),
+		username: requestBody.username,
+		email: requestBody.username,
+		contactNumber: requestBody.contactNumber,
+		guests: JSON.stringify(requestBody.guests),
+		attendance: requestBody.attendance,
+		transport: requestBody.transport,
 	};
-	errorResponse(JSON.stringify(record), context.awsRequestId, callback);
-	// recordTo(record, 'wedding-rsvp')
-	// 	.then(
-	// 		recordTo(
-	// 			Object.assign(record, {
-	// 				record: record.id + timeStamp,
-	// 				RequestTime: timeStamp,
-	// 			}),
-	// 			'wedding-rsvp-records'
-	// 		)
-	// 			.then(
-	// 				callback(null, {
-	// 					statusCode: 201,
-	// 					body: {
-	// 						message: 'RSVP successfuly recorded',
-	// 						username: requestBody.username,
-	// 					},
-	// 					headers: {
-	// 						'Access-Control-Allow-Origin': '*',
-	// 					},
-	// 				}),
-	// 				(error) => {throw error;}
-	// 			),
-	// 		(error) => {throw error;}
-	// 	)
-	// 	.catch((error) => {
-	// 		errorResponse(error, context.awsRequestId, callback);
-	// 	});
+	applyRecordTo(record, 'wedding-rsvp')
+		.then(
+			applyRecordTo(
+				Object.assign(record, {
+					record: record.id + timeStamp,
+					RequestTime: timeStamp,
+				}),
+				'wedding-rsvp-records'
+			)
+				.then(
+					callback(null, {
+						statusCode: 201,
+						body: {
+							message: 'RSVP successfuly recorded',
+							username: requestBody.username,
+						},
+						headers: {
+							'Access-Control-Allow-Origin': '*',
+						},
+					}),
+					(error) => {throw error;}
+				),
+			(error) => {throw error;}
+		)
+		.catch((error) => {
+			errorResponse(error, context.awsRequestId, callback);
+		});
 };
 
-function recordTo(data, table) {
+function applyRecordTo(data, table) {
 	return ddb.put({
 		TableName: table,
 		Item: data,

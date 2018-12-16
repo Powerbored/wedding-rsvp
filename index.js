@@ -31,8 +31,7 @@ exports.handler = (event, context, callback) => {
 					callback(null, {
 						statusCode: 201,
 						body: {
-							message: 'RSVP successfuly recorded',
-							username: record.username,
+							message: 'RSVP successfuly recorded'
 						},
 						headers: {
 							'Access-Control-Allow-Origin': '*',

@@ -14,7 +14,7 @@ exports.handler = (event, context, callback) => {
 		username: requestBody.username,
 		email: requestBody.username,
 		contactNumber: requestBody.contactNumber,
-		guests: requestBody.guests,
+		guests: JSON.stringify(requestBody.guests),
 		attendance: requestBody.attendance,
 		transport: requestBody.transport,
 	};

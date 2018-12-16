@@ -4,7 +4,13 @@ const
 
 exports.handler = (event, context, callback) => {
 	const requestBody = JSON.parse(event.body);
-	errorResponse('test', context.awsRequestId, callback);
+	callback(null, {
+		statusCode: 200,
+		body: 'test',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+		},
+	});
 	// if (!requestBody.id) {
 	// 	errorResponse('No ID recieved in request body', context.awsRequestId, callback);
 	// 	return;

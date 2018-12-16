@@ -20,26 +20,26 @@ exports.handler = (event, context, callback) => {
 	};
 	applyRecordTo(record, 'wedding-rsvp')
 		.then(
-			applyRecordTo(
-				Object.assign(record, {
-					record: record.id + timeStamp,
-					RequestTime: timeStamp,
-				}),
-				'wedding-rsvp-records'
-			)
-		).then(
-			callback(null, {
-				statusCode: 201,
-				body: {
-					message: 'RSVP successfuly recorded'
-				},
-				headers: {
-					'Access-Control-Allow-Origin': '*',
-				},
-			})
+			applyRecordTo(Object.assign(record, {
+				record: record.id + timeStamp,
+				RequestTime: timeStamp,
+			}), 'wedding-rsvp-records')
+				.then(
+					callback(null, {
+						statusCode: 201,
+						body: {
+							message: 'RSVP successfuly recorded'
+						},
+						headers: {
+							'Access-Control-Allow-Origin': '*',
+						},
+					}),
+					(error) => {throw error;}
+				),
+			(error) => {throw error;}
 		).catch((error) => {
 			console.error(error);
-			errorResponse(error, context.awsRequestId, callback);
+			errorResponse('Maybe something went wrong?', context.awsRequestId, callback);
 		});
 };
 

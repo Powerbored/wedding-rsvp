@@ -14,7 +14,7 @@ exports.handler = (event, context, callback) => {
 		username: requestBody.username,
 		email: requestBody.username,
 		contactNumber: requestBody.contactNumber,
-		guests: JSON.stringify(requestBody.guests),
+		guests: requestBody.guests,
 		attendance: requestBody.attendance,
 		transport: requestBody.transport,
 	};
@@ -32,7 +32,7 @@ exports.handler = (event, context, callback) => {
 						statusCode: 201,
 						body: {
 							message: 'RSVP successfuly recorded',
-							username: requestBody.username,
+							username: record.username,
 						},
 						headers: {
 							'Access-Control-Allow-Origin': '*',
@@ -43,6 +43,7 @@ exports.handler = (event, context, callback) => {
 			(error) => {throw error;}
 		)
 		.catch((error) => {
+			console.error(error);
 			errorResponse(error, context.awsRequestId, callback);
 		});
 };

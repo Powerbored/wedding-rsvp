@@ -10,7 +10,7 @@ exports.handler = (event, context, callback) => {
 		return;
 	}
 	let record = {
-		id: atob(requestBody.username),
+		id: requestBody.username,
 		// username: requestBody.username,
 		// email: requestBody.username,
 		// contactNumber: requestBody.contactNumber,

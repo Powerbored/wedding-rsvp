@@ -8,7 +8,16 @@ exports.handler = (event, context, callback) => {
 		errorResponse('No username recieved in request body', context.awsRequestId, callback);
 		return;
 	}
-	errorResponse(requestBody, context.awsRequestId, callback);
+	let record = {
+		id: atob(requestBody.username),
+		username: requestBody.username,
+		email: requestBody.username,
+		contactNumber: requestBody.contactNumber,
+		guests: JSON.stringify(requestBody.guests),
+		attendance: requestBody.attendance,
+		transport: requestBody.transport,
+	};
+	errorResponse(JSON.stringify(record), context.awsRequestId, callback);
 	// recordDetails(requestBody)
 	// 	.then(
 	// 		recordChange(requestBody)
@@ -33,15 +42,6 @@ exports.handler = (event, context, callback) => {
 };
 
 function recordDetails(data) {
-	// const record = {
-	// 	id: atob(data.username),
-	// 	username: data.username,
-	// 	email: data.username,
-	// 	contactNumber: data.contactNumber,
-	// 	guests: JSON.stringify(data.guests),
-	// 	attendance: data.attendance,
-	// 	transport: data.transport,
-	// };
 	return ddb.put({
 		TableName: 'wedding-rsvp',
 		Item: {

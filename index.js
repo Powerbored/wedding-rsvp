@@ -11,9 +11,9 @@ exports.handler = (event, context, callback) => {
 	recordDetails(
 		requestBody
 	).then(
-		recordChange(
-			requestBody
-		).then(
+		// recordChange(
+		// 	requestBody
+		// ).then(
 			callback(null, {
 				statusCode: 201,
 				body: {
@@ -25,19 +25,27 @@ exports.handler = (event, context, callback) => {
 				},
 			}),
 			(error) => {throw error;}
-		),
-		(error) => {throw error;}
+		// ),
+		// (error) => {throw error;}
 	).catch((error) => {
 		errorResponse(error, context.awsRequestId, callback);
 	});
 };
 
 function recordDetails(data) {
+	const record = {
+		id: atob(data.username),
+		username: data.username,
+		email: data.username,
+		contactNumber: data.contactNumber,
+		guests: JSON.stringify(data.guests),
+		attendance: data.attendance,
+		transport: data.transport,
+	};
 	return ddb.put({
 		TableName: 'wedding-rsvp',
 		Item: {
 			id: atob(data.username),
-			username: data.username
 		},
 	}).promise();
 }
@@ -48,7 +56,12 @@ function recordChange(data) {
 			record: atob(data.username) + new Date().toISOString(),
 			RequestTime: new Date().toISOString(),
 			id: atob(data.username),
-			username: data.username
+			username: data.username,
+			email: data.username,
+			contactNumber: data.contactNumber,
+			guests: JSON.stringify(data.guests),
+			attendance: data.attendance,
+			transport: data.transport,
 		},
 	}).promise();
 }

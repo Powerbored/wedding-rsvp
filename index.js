@@ -1,3 +1,5 @@
+/* eslint no-console: off */
+
 const
 	AWS = require('aws-sdk'),
 	ddb = new AWS.DynamoDB.DocumentClient();
@@ -18,7 +20,6 @@ exports.handler = (event, context, callback) => {
 		attendance: requestBody.attendance,
 		transport: requestBody.transport,
 	};
-	console.log(callback);
 	applyRecordTo(record, 'wedding-rsvp')
 		.then(
 			applyRecordTo(Object.assign(record, {
@@ -26,27 +27,12 @@ exports.handler = (event, context, callback) => {
 				RequestTime: timeStamp,
 			}), 'wedding-rsvp-records')
 				.then(
-					callback(null, {
-						statusCode: 201,
-						body: {
-							message: 'RSVP successfuly recorded'
-						},
-						headers: {
-							'Access-Control-Allow-Origin': '*',
-						},
-					}),
-					(error) => {
-						console.error('error while applying record', error);
-						throw error;
+					success => {
+						callback(null, 'RSVP successfuly recorded');
 					}
-				),
-			(error) => {
-				console.error('error while applying rsvp', error);
-				throw error;
-			}
+				)
 		).catch((error) => {
-			console.error(error);
-			errorResponse('Maybe something went wrong?', context.awsRequestId, callback);
+			errorResponse(error, context.awsRequestId, callback);
 		});
 };
 

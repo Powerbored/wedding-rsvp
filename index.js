@@ -28,8 +28,7 @@ exports.handler = (event, context, callback) => {
 			}), 'wedding-rsvp-records')
 				.then(
 					success => {
-						console.log(success, callback);
-						callback(null, 'RSVP successfuly recorded');
+						console.log('success', callback(null, 'RSVP successfuly recorded'));
 					}
 				)
 		).catch((error) => {

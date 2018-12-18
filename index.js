@@ -18,6 +18,7 @@ exports.handler = (event, context, callback) => {
 		attendance: requestBody.attendance,
 		transport: requestBody.transport,
 	};
+	console.log(callback);
 	applyRecordTo(record, 'wedding-rsvp')
 		.then(
 			applyRecordTo(Object.assign(record, {
@@ -34,9 +35,15 @@ exports.handler = (event, context, callback) => {
 							'Access-Control-Allow-Origin': '*',
 						},
 					}),
-					(error) => {throw error;}
+					(error) => {
+						console.error('error while applying record', error);
+						throw error;
+					}
 				),
-			(error) => {throw error;}
+			(error) => {
+				console.error('error while applying rsvp', error);
+				throw error;
+			}
 		).catch((error) => {
 			console.error(error);
 			errorResponse('Maybe something went wrong?', context.awsRequestId, callback);

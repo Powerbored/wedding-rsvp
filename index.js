@@ -32,7 +32,7 @@ exports.handler = (event, context, callback) => {
 					}
 				)
 		).catch((error) => {
-			console.log('error', errorResponse(error, context.awsRequestId, callback));
+			console.log('error', callback(error));
 		});
 };
 

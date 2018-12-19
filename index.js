@@ -30,7 +30,9 @@ exports.handler = (event, context, callback) => {
 					success => {
 						console.log('success', callback(null, {
 							'statusCode': 200,
-							'headers': event.headers,
+							'headers': Object.assign({}, event.headers, {
+								'Access-Control-Allow-Origin': '*'
+							}),
 							'body': 'RSVP recorded successfully',
 							'isBase64Encoded': false
 						}));

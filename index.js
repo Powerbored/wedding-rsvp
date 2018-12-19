@@ -28,11 +28,16 @@ exports.handler = (event, context, callback) => {
 			}), 'wedding-rsvp-records')
 				.then(
 					success => {
-						console.log('success', callback(null, 'RSVP successfuly recorded'));
+						console.log('success', callback(null, {
+							'statusCode': 200,
+							'headers': event.headers,
+							'body': 'RSVP recorded successfully',
+							'isBase64Encoded': false
+						}));
 					}
 				)
 		).catch((error) => {
-			console.log('error', callback(error));
+			console.log(error, callback(error));
 		});
 };
 

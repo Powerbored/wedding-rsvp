@@ -8,7 +8,10 @@ exports.handler = (event, context, callback) => {
 	const requestBody = JSON.parse(event.body);
 	const timeStamp = new Date().toISOString();
 	if (!requestBody.username) {
-		errorResponse('No username recieved in request body', context.awsRequestId, callback);
+		callback(null, responseObject(500, event.headers, JSON.stringify({
+			Error: 'No username recieved in request body',
+			Reference: context.awsRequestId,
+		})));
 		return;
 	}
 	let record = {
@@ -28,18 +31,18 @@ exports.handler = (event, context, callback) => {
 			}), 'wedding-rsvp-records')
 				.then(
 					success => {
-						console.log('success', callback(null, {
-							'statusCode': 200,
-							'headers': Object.assign({}, event.headers, {
-								'Access-Control-Allow-Origin': '*'
-							}),
-							'body': 'RSVP recorded successfully',
-							'isBase64Encoded': false
-						}));
+						console.log('success', success);
+						callback(null, responseObject(200, event.headers, JSON.stringify({
+							message: 'RSVP recorded successfully'
+						})));
 					}
 				)
 		).catch((error) => {
-			console.log(error, callback(error));
+			console.error('error', error);
+			callback(null, responseObject(500, event.headers, JSON.stringify({
+				Error: error,
+				Reference: context.awsRequestId,
+			})));
 		});
 };
 
@@ -50,15 +53,13 @@ function applyRecordTo(data, table) {
 	}).promise();
 }
 
-function errorResponse(errorMessage, awsRequestId, callback) {
-	callback(null, {
-		statusCode: 500,
-		body: JSON.stringify({
-			Error: errorMessage,
-			Reference: awsRequestId,
+function responseObject(code, headers, body) {
+	return {
+		statusCode: code,
+		headers: Object.assign({}, headers, {
+			'Access-Control-Allow-Origin': '*'
 		}),
-		headers: {
-			'Access-Control-Allow-Origin': '*',
-		},
-	});
+		body: body,
+		isBase64Encoded: false
+	};
 }

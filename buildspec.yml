@@ -1,15 +1,19 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      # Install dependencies needed for running tests
-      - npm install
+	install:
+    	commands:
+			# Install dependencies needed for running tests
+			- npm install
 
-      # Upgrade AWS CLI to the latest version
-      - pip install --upgrade awscli
+			# Upgrade AWS CLI to the latest version
+			- pip install --upgrade awscli
+	build:
+		commands:
+			# Use AWS SAM to package the application by using AWS CloudFormation
+			- aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template template-export.yml
 
 artifacts:
-  type: zip
-  files:
-    - template-export.yml
+	type: zip
+	files:
+		- template-export.yml

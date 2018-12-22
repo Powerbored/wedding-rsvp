@@ -22,6 +22,7 @@ exports.handler = (event, context, callback) => {
 		guests: JSON.stringify(requestBody.guests),
 		attendance: requestBody.attendance,
 		transport: requestBody.transport,
+		recovery: requestBody.recovery,
 	};
 	applyRecordTo(record, 'wedding-rsvp')
 		.then(
